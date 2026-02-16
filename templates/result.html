@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>E-commerce Customer Segmentation (KMeans Clustering) Results</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    function toggleDetails() {
+      const details = document.getElementById('data-science-details');
+      const btn = document.getElementById('toggle-button');
+      if (details.classList.contains('hidden')) {
+        details.classList.remove('hidden');
+        btn.textContent = 'Hide Technical Details';
+      } else {
+        details.classList.add('hidden');
+        btn.textContent = 'Show Technical Details';
+      }
+    }
+  </script>
+</head>
+<body class="bg-gradient-to-br from-yellow-50 to-indigo-100 p-6 font-sans min-h-screen text-gray-800">
+  <div class="max-w-6xl mx-auto">
+    <header class="text-center mb-8">
+      <h1 class="text-4xl font-bold text-indigo-800">🧑‍💼 E-commerce Customer Segmentation (KMeans Clustering) Summary</h1>
+      <p class="text-md mt-2 text-gray-600">Grouped by behavior — for better business and deeper analysis.</p>
+    </header>
+
+    <section class="grid md:grid-cols-2 gap-6 mb-10">
+      <div class="bg-white shadow-md p-4 rounded-xl text-center">
+        <h2 class="text-lg font-bold text-indigo-700 mb-2">📊 Customer Distribution</h2>
+        <p class="text-sm text-gray-600 mb-3">See how many customers fall in each group.</p>
+        <img src="{{ pie_chart_img }}" alt="Pie Chart" class="rounded-lg mx-auto">
+      </div>
+      <div class="bg-white shadow-md p-4 rounded-xl text-center">
+        <h2 class="text-lg font-bold text-indigo-700 mb-2">📈 Customer Count</h2>
+        <p class="text-sm text-gray-600 mb-3">Total number of customers in each category.</p>
+        <img src="{{ bar_chart_img }}" alt="Bar Chart" class="rounded-lg mx-auto">
+      </div>
+    </section>
+
+    <section class="bg-white shadow-md p-6 rounded-xl mb-10">
+      <h2 class="text-xl font-bold text-indigo-800 mb-2">💡 What This Means</h2>
+      <ul class="list-disc list-inside text-gray-700 space-y-2">
+        <li><strong>Budget Shoppers:</strong> May respond to discount coupons.</li>
+        <li><strong>High Spenders:</strong> Should be rewarded with loyalty perks.</li>
+        <li><strong>Occasional Buyers:</strong> Can be re-engaged with targeted offers.</li>
+        <li><strong>Loyal Customers:</strong> Might become brand advocates — send them thank-you notes.</li>
+      </ul>
+    </section>
+
+    <section class="bg-white shadow-md p-6 rounded-xl">
+      <h2 class="text-xl font-bold text-indigo-800 text-center mb-3">📋 Preview of Your Customers</h2>
+      <p class="text-center text-sm text-gray-600 mb-4">Includes their assigned customer type.</p>
+      <div class="overflow-x-auto text-sm mb-4">{{ tables|safe }}</div>
+      <div class="text-center">
+        <a href="/static/uploads/clustered_customers_labeled.csv" download class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition">
+          ⬇️ Download Full CSV
+        </a>
+      </div>
+    </section>
+
+    <div class="text-center my-8">
+      <button onclick="toggleDetails()" id="toggle-button" class="bg-gray-700 text-white px-4 py-2 rounded hover:bg-black transition">
+        Show Technical Details
+      </button>
+    </div>
+
+    <section id="data-science-details" class="hidden">
+      <div class="grid md:grid-cols-2 gap-6 mb-10">
+        <div class="bg-white rounded-xl shadow-md p-4">
+          <h2 class="text-lg font-bold text-indigo-700 mb-2">📉 Elbow Method</h2>
+          <p class="text-sm text-gray-600 mb-2">Used to find the optimal number of clusters (k).</p>
+          <img src="{{ elbow_img }}" alt="Elbow Plot" class="w-full rounded">
+        </div>
+        <div class="bg-white rounded-xl shadow-md p-4">
+          <h2 class="text-lg font-bold text-indigo-700 mb-2">🎨 Cluster Pair Plot</h2>
+          <p class="text-sm text-gray-600 mb-2">Visual separation between clusters.</p>
+          <img src="{{ cluster_img }}" alt="Pairplot" class="w-full rounded">
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6 mb-10">
+        <div class="bg-white rounded-xl shadow-md p-4">
+          <h2 class="text-lg font-bold text-indigo-700 mb-2">🧭 PCA - 2D View</h2>
+          <p class="text-sm text-gray-600 mb-2">Dimensionality reduction for cluster visualization.</p>
+          <img src="{{ pca_2d_img }}" alt="PCA 2D" class="w-full rounded">
+        </div>
+        <div class="bg-white rounded-xl shadow-md p-4">
+          <h2 class="text-lg font-bold text-indigo-700 mb-2">🌐 PCA - 3D View</h2>
+          <p class="text-sm text-gray-600 mb-2">Explore customer group spread in 3D space.</p>
+          <img src="{{ pca_3d_img }}" alt="PCA 3D" class="w-full rounded">
+        </div>
+      </div>
+    </section>
+  </div>
+</body>
+</html>

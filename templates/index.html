@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Customer Segmentation</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+</head>
+<body class="bg-gradient-to-tr from-indigo-50 to-purple-100 min-h-screen font-sans text-gray-800">
+  <div class="max-w-6xl mx-auto px-6 py-12">
+    <header class="text-center mb-10">
+      <h1 class="text-5xl font-bold text-purple-800 drop-shadow animate-bounce">E-commerce Customer Segmentation Tool (KMeans Clustering)</h1>
+      <p class="mt-4 text-lg text-gray-700">Upload your customer data and discover behavioral clusters with ease.</p>
+    </header>
+
+    <section class="flex flex-col md:flex-row bg-white rounded-xl shadow-lg overflow-hidden mb-12">
+      <div class="md:w-1/2 bg-indigo-100 p-6 flex items-center justify-center">
+        <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_rp3c3dsv.json" background="transparent" speed="1" style="width: 300px; height: 300px;" loop autoplay></lottie-player>
+      </div>
+      <div class="md:w-1/2 p-8 space-y-4">
+        <h2 class="text-2xl font-bold text-indigo-700">📘 What This App Does</h2>
+        <p>This tool uses <strong>AI-based clustering</strong> to divide your customers into meaningful groups. It helps businesses to:</p>
+        <ul class="list-disc list-inside text-gray-700">
+          <li>Target the right audience with personalized offers</li>
+          <li>Understand customer spending behavior</li>
+          <li>Increase retention and conversion rates</li>
+        </ul>
+        <div class="mt-4">
+          <form action="/analyze" method="post" enctype="multipart/form-data" class="space-y-4">
+            <label class="block text-sm font-semibold">Upload CSV File:</label>
+            <input type="file" name="file" required class="block w-full bg-gray-100 p-2 border border-gray-300 rounded">
+            <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-4 py-2 rounded w-full transition-all duration-300">Start Clustering</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <footer class="text-center text-gray-500 text-sm mt-8">Built for insightful business decisions 🧠</footer>
+  </div>
+</body>
+</html>
