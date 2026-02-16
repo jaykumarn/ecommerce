@@ -49,15 +49,93 @@
     </section>
 
     <section class="bg-white shadow-md p-6 rounded-xl">
-      <h2 class="text-xl font-bold text-indigo-800 text-center mb-3">📋 Preview of Your Customers</h2>
+      <h2 class="text-xl font-bold text-indigo-800 text-center mb-3">📋 All Customers ({{ total_customers }} total)</h2>
       <p class="text-center text-sm text-gray-600 mb-4">Includes their assigned customer type.</p>
-      <div class="overflow-x-auto text-sm mb-4">{{ tables|safe }}</div>
-      <div class="text-center">
+      
+      <div class="overflow-x-auto text-sm mb-4">
+        <table id="customersTable" class="min-w-full border border-gray-300">
+          <thead class="bg-indigo-100">
+            <tr>
+              {% for col in columns %}
+              <th class="px-4 py-2 border border-gray-300 text-left">{{ col }}</th>
+              {% endfor %}
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+
+      <div class="flex justify-center items-center gap-4 mb-4">
+        <button onclick="prevPage()" id="prevBtn" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition disabled:opacity-50">
+          ← Previous
+        </button>
+        <span id="pageInfo" class="text-gray-700 font-medium"></span>
+        <button onclick="nextPage()" id="nextBtn" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition disabled:opacity-50">
+          Next →
+        </button>
+      </div>
+
+      <div class="flex justify-center gap-4">
         <a href="/static/uploads/clustered_customers_labeled.csv" download class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition">
-          ⬇️ Download Full CSV
+          ⬇️ Download CSV
+        </a>
+        <a href="/static/uploads/clustered_customers_labeled.xlsx" download class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
+          ⬇️ Download Excel
+        </a>
+        <a href="/" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition">
+          📁 Upload Another File
         </a>
       </div>
     </section>
+
+    <script>
+      const customersData = {{ customers_data | tojson }};
+      const columns = {{ columns | tojson }};
+      const rowsPerPage = 10;
+      let currentPage = 1;
+      const totalPages = Math.ceil(customersData.length / rowsPerPage);
+
+      function renderTable() {
+        const start = (currentPage - 1) * rowsPerPage;
+        const end = start + rowsPerPage;
+        const pageData = customersData.slice(start, end);
+        
+        const tbody = document.getElementById('tableBody');
+        tbody.innerHTML = '';
+        
+        pageData.forEach(row => {
+          const tr = document.createElement('tr');
+          tr.className = 'hover:bg-gray-50';
+          columns.forEach(col => {
+            const td = document.createElement('td');
+            td.className = 'px-4 py-2 border border-gray-300';
+            td.textContent = row[col];
+            tr.appendChild(td);
+          });
+          tbody.appendChild(tr);
+        });
+
+        document.getElementById('pageInfo').textContent = `Page ${currentPage} of ${totalPages}`;
+        document.getElementById('prevBtn').disabled = currentPage === 1;
+        document.getElementById('nextBtn').disabled = currentPage === totalPages;
+      }
+
+      function nextPage() {
+        if (currentPage < totalPages) {
+          currentPage++;
+          renderTable();
+        }
+      }
+
+      function prevPage() {
+        if (currentPage > 1) {
+          currentPage--;
+          renderTable();
+        }
+      }
+
+      renderTable();
+    </script>
 
     <div class="text-center my-8">
       <button onclick="toggleDetails()" id="toggle-button" class="bg-gray-700 text-white px-4 py-2 rounded hover:bg-black transition">
